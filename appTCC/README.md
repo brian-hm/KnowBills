@@ -1,4 +1,4 @@
-# projetoTCC
+# appTCC
 
 A new Flutter project.
 

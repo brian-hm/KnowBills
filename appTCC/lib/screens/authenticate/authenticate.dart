@@ -1,3 +1,5 @@
+import 'package:appTCC/screens/authenticate/register.dart';
+import 'package:appTCC/screens/authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -6,10 +8,23 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+  //para indicar se vai para Registro ou Login
+  bool showSignIn = true;
+  void toggleView() {
+    setState(() {
+      showSignIn =
+          !showSignIn; //toda vez que a funçaõ for chamada, o valor é invertido
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("authenticate"),
-    );
+    if (showSignIn) {
+      return SignIn(
+          toggleView:
+              toggleView); //passa toggleView por parametro para as páginas "toggleView" do tipo toggleView()
+    } else {
+      return Register(toggleView: toggleView);
+    }
   }
 }

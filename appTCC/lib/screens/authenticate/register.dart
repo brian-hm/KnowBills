@@ -19,6 +19,7 @@ class _RegisterState extends State<Register> {
   bool loading = false;
 
   //text field state
+  String name = '';
   String email = '';
   String password = '';
   String error = '';
@@ -45,6 +46,18 @@ class _RegisterState extends State<Register> {
                   key: _formKey, //conecta o Form com a chave para validação
                   child: Column(
                     children: [
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration: textInputDecoration.copyWith(
+                            hintText: 'Nome Completo'),
+                        validator: (val) =>
+                            val.isEmpty ? 'Digite o nome' : null,
+                        onChanged: (val) {
+                          setState(() {
+                            name = val;
+                          });
+                        },
+                      ),
                       SizedBox(height: 20.0),
                       TextFormField(
                         decoration:
@@ -86,7 +99,7 @@ class _RegisterState extends State<Register> {
                               //o método validate retorna true se os TextFormField forem válidos
                               dynamic result =
                                   await _auth.registerWithEmailAndPassword(
-                                      email, password);
+                                      name, email, password);
                               if (result == null) {
                                 setState(() {
                                   loading = false;

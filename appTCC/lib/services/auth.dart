@@ -1,9 +1,11 @@
 import 'package:appTCC/models/user.dart';
+import 'package:appTCC/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 //Aqui ficará todo "serviço" de autenticação
 
 class AuthService {
+  
   final FirebaseAuth _auth = FirebaseAuth.instance; //"_ indica que é privado"
 
   //cria o objeto User a partir do userCrendetial
@@ -42,10 +44,15 @@ class AuthService {
   }
 
   //registrar com email e senha
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(
+      String name, String email, String password) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      //cria um novo documento para o usuario com a uid
+      await DatabaseService(uid: userCredential.user.uid).updateUserData(name);
+
       return _userFromUserCrendetial(userCredential.user);
     } catch (e) {
       print(e.toString());

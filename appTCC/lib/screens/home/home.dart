@@ -1,4 +1,5 @@
 import 'package:appTCC/models/fiscalDocument.dart';
+import 'package:appTCC/models/user.dart';
 import 'package:appTCC/screens/home/fiscalDocument_list.dart';
 import 'package:appTCC/services/auth.dart';
 import 'package:appTCC/services/database.dart';
@@ -10,9 +11,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<Usuario>(context);
+
     return StreamProvider<List<FiscalDocument>>.value(
       //acessa a Stream em database.dart
-      value: DatabaseService()
+      value: DatabaseService(uid: user.uid)
           .fiscalDocuments, //todo widget abaixo poderar acessar os dados da Stream
       child: Scaffold(
         appBar: AppBar(

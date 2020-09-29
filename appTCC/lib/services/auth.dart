@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 //Aqui ficará todo "serviço" de autenticação
 
 class AuthService {
-  
   final FirebaseAuth _auth = FirebaseAuth.instance; //"_ indica que é privado"
 
   //cria o objeto User a partir do userCrendetial
@@ -51,7 +50,8 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       //cria um novo documento para o usuario com a uid
-      await DatabaseService(uid: userCredential.user.uid).updateUserData(name);
+      await DatabaseService(uid: userCredential.user.uid)
+          .updateUserData(name, userCredential.user.uid);
 
       return _userFromUserCrendetial(userCredential.user);
     } catch (e) {

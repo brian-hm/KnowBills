@@ -1,4 +1,5 @@
 import 'package:appTCC/models/fiscalDocument.dart';
+import 'package:appTCC/models/user.dart';
 import 'package:appTCC/screens/home/fiscalDoc_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class _FiscalDocumentListState extends State<FiscalDocumentList> {
   @override
   Widget build(BuildContext context) {
     final fiscalDocs = Provider.of<List<FiscalDocument>>(context);
+    final user = Provider.of<Usuario>(context);
 
     // fiscalDocs.forEach((fiscalDoc) {
     //   print(fiscalDoc.local);
@@ -20,10 +22,14 @@ class _FiscalDocumentListState extends State<FiscalDocumentList> {
     //   print(fiscalDoc.total);
     // });
 
-    return ListView.builder(
-        itemCount: fiscalDocs.length,
-        itemBuilder: (context, index) {
-          return FiscalDocTile(fiscalDoc: fiscalDocs[index]);
-        });
+    return fiscalDocs == null
+        ? Container()
+        : ListView.builder(
+            itemCount: fiscalDocs.length,
+            itemBuilder: (context, index) {
+              if (user.uid.compareTo(fiscalDocs[index].uidUsuario) == 0)
+                return FiscalDocTile(fiscalDoc: fiscalDocs[index]);
+              return Container();
+            });
   }
 }

@@ -18,7 +18,7 @@ class FiscalDocTile extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Valor: ${fiscalDoc.total}"),
+              Text("Valor: R\$ ${fiscalDoc.total}"),
               Text("Data: ${fiscalDoc.data}")
             ],
           ),

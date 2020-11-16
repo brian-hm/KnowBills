@@ -7,6 +7,7 @@ import 'package:appTCC/screens/home/settings.dart';
 import 'package:appTCC/services/auth.dart';
 import 'package:appTCC/services/database.dart';
 import 'package:appTCC/shared/constants.dart';
+import 'package:appTCC/shared/qrcodeScan.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     Data(),
     AddDespesa(),
-    Container(),
+    ScanQrcode(),
     FiscalDocumentList(),
     Settings()
   ];

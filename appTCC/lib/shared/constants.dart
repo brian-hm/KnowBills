@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 
 const textInputDecoration = InputDecoration(
   hintText: "Email",
-  // fillColor: Colors.white,
-  // filled: true,
-  // enabledBorder: OutlineInputBorder(
-  //     borderSide: BorderSide(color: Colors.white, width: 2.0)),
-  // focusedBorder: OutlineInputBorder(
-  //     borderSide: BorderSide(color: Colors.grey, width: 2.0))
+  labelStyle: TextStyle(color: kMainColor, fontSize: 20.0),
 );
 
 const kMainColor = Color(0xFF43BE7C);

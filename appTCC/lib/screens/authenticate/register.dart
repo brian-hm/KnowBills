@@ -66,15 +66,10 @@ class _RegisterState extends State<Register> {
                               color: Color(0xFF43BE7C), size: 100),
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Nome',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
-                              hintText: 'Nome Completo'),
+                              labelText: 'Nome', hintText: 'Nome Completo'),
                           validator: (val) =>
                               val.isEmpty ? 'Digite o nome' : null,
                           onChanged: (val) {
@@ -84,14 +79,10 @@ class _RegisterState extends State<Register> {
                           },
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Email',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
                           decoration: textInputDecoration.copyWith(
+                              labelText: 'E-mail',
                               hintText: 'exemplo@gmail.com'),
                           validator: (val) =>
                               val.isEmpty ? 'Digite um e-mail' : null,
@@ -102,15 +93,10 @@ class _RegisterState extends State<Register> {
                           },
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Senha',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
-                          decoration:
-                              textInputDecoration.copyWith(hintText: '*******'),
+                          decoration: textInputDecoration.copyWith(
+                              labelText: 'Senha', hintText: ''),
                           validator: (val) => val.length < 6
                               ? 'Digite uma senha com 6+ caracteres'
                               : null,
@@ -122,15 +108,10 @@ class _RegisterState extends State<Register> {
                           },
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Confirmar Senha',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
-                          decoration:
-                              textInputDecoration.copyWith(hintText: '*******'),
+                          decoration: textInputDecoration.copyWith(
+                              labelText: 'Confirmar Senha', hintText: ''),
                           validator: (val) => val != password
                               ? 'Senhas não correspondem'
                               : null,

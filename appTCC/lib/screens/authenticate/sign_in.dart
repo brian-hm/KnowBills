@@ -68,16 +68,12 @@ class _SignInState extends State<SignIn> {
                               color: Color(0xFF43BE7C), size: 100),
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Email',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
                           //textInputDecoration será está no arquivo "shared/constants"
                           decoration: textInputDecoration.copyWith(
-                              hintText: 'exemplo@gmail.com'),
+                              hintText: 'exemplo@gmail.com',
+                              labelText: 'Email'),
 
                           validator: (val) =>
                               val.isEmpty ? 'Digite um e-mail' : null,
@@ -88,15 +84,10 @@ class _SignInState extends State<SignIn> {
                           },
                         ),
                         SizedBox(height: 20.0),
-                        Text(
-                          'Senha',
-                          style:
-                              TextStyle(color: Color(0xFF43BE7C), fontSize: 20),
-                        ),
                         SizedBox(height: 5.0),
                         TextFormField(
-                          decoration:
-                              textInputDecoration.copyWith(hintText: ''),
+                          decoration: textInputDecoration.copyWith(
+                              hintText: '', labelText: 'Senha'),
                           validator: (val) => val.length < 6
                               ? 'Digite uma senha com 6+ caracteres'
                               : null,

@@ -1,22 +1,22 @@
-import 'package:appTCC/models/categoria.dart';
-import 'package:appTCC/models/item.dart';
-import 'package:appTCC/models/user.dart';
-import 'package:appTCC/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:appTCC/shared/constants.dart';
-import 'package:provider/provider.dart';
+import 'package:appTCC/models/categoria.dart';
+import 'package:appTCC/services/database.dart';
 import 'package:appTCC/shared/loading.dart';
+import 'package:appTCC/models/user.dart';
+import 'package:provider/provider.dart';
 
-class UpdateItemForm extends StatefulWidget {
-  final Item item;
-  UpdateItemForm({this.item});
-
+class AddItemForm extends StatefulWidget {
   @override
-  _UpdateItemFormState createState() => _UpdateItemFormState();
+  _AddItemFormState createState() => _AddItemFormState();
 }
 
-class _UpdateItemFormState extends State<UpdateItemForm> {
+class _AddItemFormState extends State<AddItemForm> {
   final _formKey = GlobalKey<FormState>();
+
+  String _categoria;
+  String _descricao;
+  double _valor;
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,20 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("ALTERAR DADOS",
+              Text("ADICIONAR ITEM",
                   style: TextStyle(color: kMainColor, fontSize: 20)),
               SizedBox(
                 height: 20.0,
               ),
               TextFormField(
-                initialValue: widget.item.descricao,
                 decoration: textInputDecoration.copyWith(
-                    hintText: 'Nome do produto', labelText: "Descrição"),
-                validator: (val) => val.isEmpty ? 'Insira uma descrição' : null,
+                  hintText: 'Nome do produto',
+                  labelText: 'Descrição',
+                ),
+                validator: (val) => val.isEmpty ? 'Insira um descrição' : null,
                 onChanged: (val) {
                   setState(() {
-                    widget.item.descricao = val;
+                    _descricao = val;
                   });
                 },
               ),
@@ -49,45 +50,21 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                 height: 20.0,
               ),
               TextFormField(
-                initialValue: "R\$ " + widget.item.valor.toString(),
                 keyboardType: TextInputType.number,
                 decoration: textInputDecoration.copyWith(
                     hintText: 'R\$ 00.00', labelText: 'Valor'),
                 validator: (val) => val.isEmpty ? 'Informe o valor' : null,
                 onChanged: (val) {
                   setState(() {
-                    widget.item.valor = double.parse(val);
+                    _valor = double.parse(val);
                   });
                 },
               ),
               SizedBox(
                 height: 20.0,
               ),
-              // Text('Categoria',
-              //     style: TextStyle(color: kMainColor, fontSize: 20)),
-              // DropdownButton<String>(
-              //   value: widget.item.categoria.toString(),
-              //   icon: Icon(Icons.arrow_drop_down),
-              //   iconSize: 20,
-              //   elevation: 16,
-              //   style: TextStyle(color: Colors.grey),
-              //   underline: Container(
-              //     height: 2,
-              //     color: kMainColor,
-              //   ),
-              //   onChanged: (String newValue) {
-              //     setState(() {
-              //       widget.item.categoria = newValue;
-              //     });
-              //   },
-              //   items: <String>['1', '2', '3']
-              //       .map<DropdownMenuItem<String>>((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value),
-              //     );
-              //   }).toList(),
-              // ),
+
+              //Dropdown with Stream
               StreamBuilder<List<Categoria>>(
                 stream: DatabaseService().getCategorias,
                 builder: (context, snapshot) {
@@ -113,10 +90,10 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                           items: categorias,
                           onChanged: (currentValue) {
                             setState(() {
-                              widget.item.categoria = currentValue;
+                              _categoria = currentValue;
                             });
                           },
-                          value: widget.item.categoria,
+                          value: _categoria,
                           isExpanded: false,
                           hint: Text('Selecione a Categoria'),
                         ),
@@ -125,9 +102,7 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                   }
                 },
               ),
-              SizedBox(
-                height: 20.0,
-              ),
+              SizedBox(height: 20.0),
               Center(
                 child: ButtonTheme(
                   minWidth: 200.0,
@@ -143,11 +118,10 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          await DatabaseService(uid: user.uid).updateItemData(
-                            widget.item.key,
-                            widget.item.descricao,
-                            widget.item.valor,
-                            widget.item.categoria,
+                          await DatabaseService(uid: user.uid).insertItemData(
+                            _descricao,
+                            _valor,
+                            _categoria,
                           );
                           Navigator.pop(context);
                         }
@@ -157,6 +131,5 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
             ],
           ),
         ));
-    ;
   }
 }

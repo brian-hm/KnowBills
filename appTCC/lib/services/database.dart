@@ -1,5 +1,7 @@
 //Aqui ficará todo o serviço com Cloud Firestore(database)
+import 'package:appTCC/models/categoria.dart';
 import 'package:appTCC/models/fiscalDocument.dart';
+import 'package:appTCC/models/item.dart';
 import 'package:appTCC/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,16 +14,47 @@ class DatabaseService {
   final CollectionReference UsuariosCollection =
       FirebaseFirestore.instance.collection('usuarios');
 
+  final CollectionReference produtosCollection =
+      FirebaseFirestore.instance.collection('produtos');
+
+  final CollectionReference categorias =
+      FirebaseFirestore.instance.collection('categorias');
+
   final CollectionReference documentoFiscalCollection =
       FirebaseFirestore.instance.collection('documentoFiscal');
 
   //tanto para inserir, quanto para alterar dados do Usuário
   //a chave do documento de cada usuário será o UID gerado pela Autenticaçao
-  Future updateUserData(String name, String uid) async {
+  Future updateUserData(String name, String uid, String email) async {
     return await UsuariosCollection.doc(uid).set({
       //doc(uid) vai ser criado
-      'nome': name,
       'uid': uid,
+      'nome': name,
+      'email': email,
+    });
+  }
+
+  //tanto para inserir, quanto para alterar dados do Item
+  Future updateItemData(
+      String key, String descricao, double valor, String categoria) async {
+    return await produtosCollection.doc(key).set({
+      'key': key,
+      'uid': uid,
+      'descricao': descricao,
+      'valor': valor,
+      'categoria': categoria
+    });
+  }
+
+  Future insertItemData(
+      String descricao, double valor, String categoria) async {
+    String key = produtosCollection.doc().id;
+    return await produtosCollection.doc(key).set({
+      'key': key,
+      'uid': uid,
+      'descricao': descricao,
+      'valor': valor,
+      'categoria': categoria
     });
   }
 
@@ -57,7 +90,48 @@ class DatabaseService {
     );
   }
 
+  //item list from snapshot
+  List<Item> _itemListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Item(
+        key: doc.id,
+        uid: doc.data()['uid'],
+        idNota: doc.data()['nota'] ?? '',
+        descricao: doc.data()['descricao'] ?? '',
+        valor: doc.data()['valor'].toDouble() ?? 0.0,
+        categoria: doc.data()['categoria'] ?? "",
+      );
+    }).toList();
+  }
+
+  //categoria list from snapshot
+  List<Categoria> _categoriaListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Categoria(
+          cor: doc.data()['cor'], descricao: doc.data()['descricao']);
+    }).toList();
+  }
+
+  //item data from snapshot
+  Item _itemDataFromSnaphot(DocumentSnapshot snapshot) {
+    return Item(
+        key: snapshot.data()['key'],
+        uid: snapshot.data()['uid'],
+        idNota: snapshot.data()['nota'],
+        descricao: snapshot.data()['descricao'],
+        valor: snapshot.data()['valor'],
+        categoria: snapshot.data()['categoria']);
+  }
+
   Stream<UserData> get userData {
     return UsuariosCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  Stream<List<Item>> get getItems {
+    return produtosCollection.snapshots().map(_itemListFromSnapshot);
+  }
+
+  Stream<List<Categoria>> get getCategorias {
+    return categorias.snapshots().map((_categoriaListFromSnapshot));
   }
 }

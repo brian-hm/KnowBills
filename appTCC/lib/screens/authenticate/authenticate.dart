@@ -2,13 +2,14 @@ import 'package:appTCC/screens/authenticate/register.dart';
 import 'package:appTCC/screens/authenticate/sign_in.dart';
 import 'package:flutter/material.dart';
 
+//Esse arquivo define se irá para a tela de log in ou a de registro
+
 class Authenticate extends StatefulWidget {
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  //para indicar se vai para Registro ou Login
   bool showSignIn = true;
   void toggleView() {
     setState(() {

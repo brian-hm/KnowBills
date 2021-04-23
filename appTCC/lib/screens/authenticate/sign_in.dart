@@ -13,10 +13,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  //instance of AuthService to use de Futures on auth.dart
   final AuthService _auth = AuthService();
 
-  final _formKey = GlobalKey<FormState>(); //chave criada para validar Form
+  final _formKey = GlobalKey<FormState>();
+  //chave criada para validar Form
   //cada TextFormFiel terá o validator
+
   bool loading = false;
 
   //text field state
@@ -75,6 +78,7 @@ class _SignInState extends State<SignIn> {
                           //textInputDecoration será está no arquivo "shared/constants"
                           decoration: textInputDecoration.copyWith(
                               hintText: 'exemplo@gmail.com'),
+
                           validator: (val) =>
                               val.isEmpty ? 'Digite um e-mail' : null,
                           onChanged: (val) {
@@ -91,8 +95,8 @@ class _SignInState extends State<SignIn> {
                         ),
                         SizedBox(height: 5.0),
                         TextFormField(
-                          decoration: textInputDecoration.copyWith(
-                              hintText: '**********'),
+                          decoration:
+                              textInputDecoration.copyWith(hintText: ''),
                           validator: (val) => val.length < 6
                               ? 'Digite uma senha com 6+ caracteres'
                               : null,
@@ -137,8 +141,10 @@ class _SignInState extends State<SignIn> {
                                       color: Colors.white, fontSize: 20),
                                 ),
                                 onPressed: () async {
+                                  //é valido somente se os validators forem null
                                   if (_formKey.currentState.validate()) {
                                     setState(() => loading = true);
+                                    //dynamic bc could be null or a firabase user
                                     dynamic result =
                                         await _auth.signInWithEmailAndPassword(
                                             email, password);
@@ -146,7 +152,7 @@ class _SignInState extends State<SignIn> {
                                       setState(() {
                                         loading = false;
                                         error =
-                                            'Não foi possível fazer Sign In com essas credenciais';
+                                            'Não foi possível fazer Login com essas credenciais';
                                       });
                                     }
                                   }

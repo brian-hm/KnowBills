@@ -1,5 +1,11 @@
+import 'package:appTCC/models/item.dart';
+import 'package:appTCC/models/user.dart';
+import 'package:appTCC/screens/home/updateItemFrom.dart';
+import 'package:appTCC/services/database.dart';
 import 'package:appTCC/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:appTCC/screens/home/item_list.dart';
 
 class AddDespesa extends StatefulWidget {
   @override
@@ -7,119 +13,22 @@ class AddDespesa extends StatefulWidget {
 }
 
 class _AddDespesaState extends State<AddDespesa> {
-  String dropdownValue = 'Categoria 1';
-  String descricao = '';
-  double valor = 0.0;
+  String _dropDownValue = '1';
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 20,
-                elevation: 16,
-                style: TextStyle(color: Colors.grey),
-                underline: Container(
-                  height: 2,
-                  color: kMainColor,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>['Categoria 1', 'Categoria 2', 'Categoria 3']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-              IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {})
-            ],
-          ),
-          SizedBox(height: 20),
-          OutlineButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(8.0)),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Descrição Produto 1',
-                        style: TextStyle(color: kMainColor, fontSize: 20),
-                      ),
-                      Text(
-                        '0.00',
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
-                  ),
-                  Text(
-                    'Categoria 1',
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              ),
-            ),
-            onPressed: () {},
-          ),
-          SizedBox(height: 20),
-          OutlineButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(8.0)),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Descrição Produto 2',
-                        style: TextStyle(color: kMainColor, fontSize: 20),
-                      ),
-                      Text(
-                        '0.00',
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
-                  ),
-                  Text(
-                    'Categoria 2',
-                    style: TextStyle(color: Colors.blue),
-                  )
-                ],
-              ),
-            ),
-            onPressed: () {},
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: ButtonTheme(
-              minWidth: 200.0,
+    final user = Provider.of<Usuario>(context);
+
+    return StreamProvider<List<Item>>.value(
+      value: DatabaseService().getItems,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+        child: Column(
+          children: [
+            ButtonTheme(
+              minWidth: 300.0,
               height: 50.0,
               child: RaisedButton(
                   shape: RoundedRectangleBorder(
@@ -131,16 +40,58 @@ class _AddDespesaState extends State<AddDespesa> {
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                   onPressed: () {
-                    modalBottomSheet(context);
+                    modalBottomSheet(context, user.uid);
                   }),
             ),
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                DropdownButton<String>(
+                  value: _dropDownValue,
+                  icon: Icon(Icons.arrow_drop_down),
+                  iconSize: 20,
+                  elevation: 16,
+                  style: TextStyle(color: Colors.grey),
+                  underline: Container(
+                    height: 2,
+                    color: kMainColor,
+                  ),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      _dropDownValue = newValue;
+                    });
+                  },
+                  items: <String>['1', '2', '3']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.grey,
+                    ),
+                    onPressed: () {})
+              ],
+            ),
+            SizedBox(height: 20),
+            ItemList(),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  void modalBottomSheet(context) {
+  void modalBottomSheet(context, uid) {
+    String _categoria;
+    String _descricao;
+    double _valor;
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -151,6 +102,11 @@ class _AddDespesaState extends State<AddDespesa> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text("ADICIONAR ITEM",
+                        style: TextStyle(color: kMainColor, fontSize: 20)),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Text('Descrição',
                         style: TextStyle(color: kMainColor, fontSize: 20)),
                     SizedBox(
@@ -163,9 +119,40 @@ class _AddDespesaState extends State<AddDespesa> {
                           val.isEmpty ? 'Insira um descrição' : null,
                       onChanged: (val) {
                         setState(() {
-                          descricao = val;
+                          _descricao = val;
                         });
                       },
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Text('Categoria',
+                        style: TextStyle(color: kMainColor, fontSize: 20)),
+                    SizedBox(
+                      height: 5.0,
+                    ),
+                    DropdownButton<String>(
+                      value: _categoria,
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 20,
+                      elevation: 16,
+                      style: TextStyle(color: Colors.grey),
+                      underline: Container(
+                        height: 2,
+                        color: kMainColor,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          _categoria = newValue;
+                        });
+                      },
+                      items: <String>['1', '2', '3']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -183,43 +170,9 @@ class _AddDespesaState extends State<AddDespesa> {
                           val.isEmpty ? 'Informe o valor' : null,
                       onChanged: (val) {
                         setState(() {
-                          valor = double.parse(val);
+                          _valor = double.parse(val);
                         });
                       },
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Text('Categoria',
-                        style: TextStyle(color: kMainColor, fontSize: 20)),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 20,
-                      elevation: 16,
-                      style: TextStyle(color: Colors.grey),
-                      underline: Container(
-                        height: 2,
-                        color: kMainColor,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      },
-                      items: <String>[
-                        'Categoria 1',
-                        'Categoria 2',
-                        'Categoria 3'
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -238,7 +191,16 @@ class _AddDespesaState extends State<AddDespesa> {
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20),
                             ),
-                            onPressed: () {}),
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                await DatabaseService(uid: uid).insertItemData(
+                                  _descricao,
+                                  _valor,
+                                  _categoria,
+                                );
+                                Navigator.pop(context);
+                              }
+                            }),
                       ),
                     ),
                   ],

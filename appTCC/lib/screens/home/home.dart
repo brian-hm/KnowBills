@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
     FiscalDocumentList(),
     Settings()
   ];
+
   final AuthService _auth = AuthService();
 
   void onTabTapped(int index) {

@@ -127,8 +127,15 @@ class DatabaseService {
     return UsuariosCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 
-  Stream<List<Item>> get getItems {
-    return produtosCollection.snapshots().map(_itemListFromSnapshot);
+  Stream<List<Item>> getItems(String uid, String categoria) {
+    if (categoria == "Todos") {
+      categoria = null;
+    }
+    return produtosCollection
+        .where("uid", isEqualTo: uid)
+        .where("categoria", isEqualTo: categoria)
+        .snapshots()
+        .map(_itemListFromSnapshot);
   }
 
   Stream<List<Categoria>> get getCategorias {

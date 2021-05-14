@@ -28,8 +28,10 @@ class _AddDespesaState extends State<AddDespesa> {
           });
     }
 
+    final user = Provider.of<Usuario>(context);
+
     return StreamProvider<List<Item>>.value(
-      value: DatabaseService().getItems,
+      value: DatabaseService().getItems(user.uid, _categoria),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Column(
@@ -60,6 +62,10 @@ class _AddDespesaState extends State<AddDespesa> {
                       return Loading();
                     } else {
                       List<DropdownMenuItem> categorias = [];
+                      categorias.add(DropdownMenuItem(
+                        child: Text("Todos"),
+                        value: "Todos",
+                      ));
                       for (int i = 0; i < snapshot.data.length; i++) {
                         Categoria snap = snapshot.data[i];
                         categorias.add(DropdownMenuItem(
@@ -69,6 +75,7 @@ class _AddDespesaState extends State<AddDespesa> {
                           value: snap.descricao,
                         ));
                       }
+
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

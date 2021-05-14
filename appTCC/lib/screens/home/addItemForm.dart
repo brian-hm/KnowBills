@@ -14,7 +14,7 @@ class AddItemForm extends StatefulWidget {
 class _AddItemFormState extends State<AddItemForm> {
   final _formKey = GlobalKey<FormState>();
 
-  String _categoria;
+  String _categoria = "Sem Categoria";
   String _descricao;
   double _valor;
 

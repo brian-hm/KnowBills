@@ -17,6 +17,7 @@ class _ItemListState extends State<ItemList> {
     return items == null
         ? Loading()
         : ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: items.length,

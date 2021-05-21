@@ -2,7 +2,6 @@ import 'package:appTCC/models/fiscalDocument.dart';
 import 'package:appTCC/models/user.dart';
 import 'package:appTCC/screens/home/addDespesa.dart';
 import 'package:appTCC/screens/home/data.dart';
-import 'package:appTCC/screens/home/fiscalDocument_list.dart';
 import 'package:appTCC/screens/home/settings.dart';
 import 'package:appTCC/services/auth.dart';
 import 'package:appTCC/services/database.dart';
@@ -31,7 +30,8 @@ class _HomeState extends State<Home> {
     Data(),
     AddDespesa(),
     ScanQrcode(),
-    FiscalDocumentList(),
+    Container(),
+    //Notas(),
     Settings()
   ];
 

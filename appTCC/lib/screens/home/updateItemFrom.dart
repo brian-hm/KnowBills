@@ -49,6 +49,19 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                 height: 20.0,
               ),
               TextFormField(
+                initialValue: widget.item.local,
+                decoration: textInputDecoration.copyWith(
+                    hintText: 'Local', labelText: "Local da compra"),
+                onChanged: (val) {
+                  setState(() {
+                    widget.item.local = val;
+                  });
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              TextFormField(
                 initialValue: "R\$ " + widget.item.valor.toString(),
                 keyboardType: TextInputType.number,
                 decoration: textInputDecoration.copyWith(
@@ -63,31 +76,6 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
               SizedBox(
                 height: 20.0,
               ),
-              // Text('Categoria',
-              //     style: TextStyle(color: kMainColor, fontSize: 20)),
-              // DropdownButton<String>(
-              //   value: widget.item.categoria.toString(),
-              //   icon: Icon(Icons.arrow_drop_down),
-              //   iconSize: 20,
-              //   elevation: 16,
-              //   style: TextStyle(color: Colors.grey),
-              //   underline: Container(
-              //     height: 2,
-              //     color: kMainColor,
-              //   ),
-              //   onChanged: (String newValue) {
-              //     setState(() {
-              //       widget.item.categoria = newValue;
-              //     });
-              //   },
-              //   items: <String>['1', '2', '3']
-              //       .map<DropdownMenuItem<String>>((String value) {
-              //     return DropdownMenuItem<String>(
-              //       value: value,
-              //       child: Text(value),
-              //     );
-              //   }).toList(),
-              // ),
               StreamBuilder<List<Categoria>>(
                 stream: DatabaseService().getCategorias,
                 builder: (context, snapshot) {
@@ -145,7 +133,9 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                         if (_formKey.currentState.validate()) {
                           await DatabaseService(uid: user.uid).updateItemData(
                             widget.item.key,
+                            widget.item.idNota,
                             widget.item.descricao,
+                            widget.item.local,
                             widget.item.valor,
                             widget.item.categoria,
                           );

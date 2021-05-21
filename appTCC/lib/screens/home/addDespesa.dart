@@ -34,81 +34,83 @@ class _AddDespesaState extends State<AddDespesa> {
       value: DatabaseService().getItems(user.uid, _categoria),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        child: Column(
-          children: [
-            ButtonTheme(
-              minWidth: 300.0,
-              height: 50.0,
-              child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: kMainColor)),
-                  color: kMainColor,
-                  child: Text(
-                    'Adicionar',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    _showAddPanel();
-                  }),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                StreamBuilder<List<Categoria>>(
-                  stream: DatabaseService().getCategorias,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Loading();
-                    } else {
-                      List<DropdownMenuItem> categorias = [];
-                      categorias.add(DropdownMenuItem(
-                        child: Text("Todos"),
-                        value: "Todos",
-                      ));
-                      for (int i = 0; i < snapshot.data.length; i++) {
-                        Categoria snap = snapshot.data[i];
-                        categorias.add(DropdownMenuItem(
-                          child: Text(
-                            snap.descricao,
-                          ),
-                          value: snap.descricao,
-                        ));
-                      }
-
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DropdownButton(
-                            items: categorias,
-                            onChanged: (currentValue) {
-                              setState(() {
-                                _categoria = currentValue;
-                              });
-                            },
-                            value: _categoria,
-                            isExpanded: false,
-                            hint: Text('Selecione a Categoria'),
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                ),
-                IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ButtonTheme(
+                minWidth: 300.0,
+                height: 50.0,
+                child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: kMainColor)),
+                    color: kMainColor,
+                    child: Text(
+                      'Adicionar',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    onPressed: () {})
-              ],
-            ),
-            SizedBox(height: 20),
-            ItemList(),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+                    onPressed: () {
+                      _showAddPanel();
+                    }),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  StreamBuilder<List<Categoria>>(
+                    stream: DatabaseService().getCategorias,
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Loading();
+                      } else {
+                        List<DropdownMenuItem> categorias = [];
+                        categorias.add(DropdownMenuItem(
+                          child: Text("Todos"),
+                          value: "Todos",
+                        ));
+                        for (int i = 0; i < snapshot.data.length; i++) {
+                          Categoria snap = snapshot.data[i];
+                          categorias.add(DropdownMenuItem(
+                            child: Text(
+                              snap.descricao,
+                            ),
+                            value: snap.descricao,
+                          ));
+                        }
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DropdownButton(
+                              items: categorias,
+                              onChanged: (currentValue) {
+                                setState(() {
+                                  _categoria = currentValue;
+                                });
+                              },
+                              value: _categoria,
+                              isExpanded: false,
+                              hint: Text('Selecione a Categoria'),
+                            ),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                  IconButton(
+                      icon: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {})
+                ],
+              ),
+              SizedBox(height: 20),
+              ItemList(),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

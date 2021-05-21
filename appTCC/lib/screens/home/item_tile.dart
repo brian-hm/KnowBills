@@ -29,12 +29,16 @@ class ItemTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  item.descricao,
+                  style: TextStyle(color: kMainColor, fontSize: 20),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      item.descricao,
-                      style: TextStyle(color: kMainColor, fontSize: 20),
+                      item.categoria,
+                      style: TextStyle(color: Colors.red),
                     ),
                     Text(
                       "R\$ " + item.valor.toString(),
@@ -42,10 +46,6 @@ class ItemTile extends StatelessWidget {
                     )
                   ],
                 ),
-                Text(
-                  item.categoria,
-                  style: TextStyle(color: Colors.red),
-                )
               ],
             ),
           ),

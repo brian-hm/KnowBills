@@ -14,9 +14,11 @@ class AddItemForm extends StatefulWidget {
 class _AddItemFormState extends State<AddItemForm> {
   final _formKey = GlobalKey<FormState>();
 
+  String _idNota = null;
   String _categoria = "Sem Categoria";
   String _descricao;
   double _valor;
+  String _local = "";
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,21 @@ class _AddItemFormState extends State<AddItemForm> {
                 onChanged: (val) {
                   setState(() {
                     _valor = double.parse(val);
+                  });
+                },
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+
+              TextFormField(
+                decoration: textInputDecoration.copyWith(
+                  hintText: 'Local da compra',
+                  labelText: 'Local',
+                ),
+                onChanged: (val) {
+                  setState(() {
+                    _local = val;
                   });
                 },
               ),
@@ -119,9 +136,11 @@ class _AddItemFormState extends State<AddItemForm> {
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           await DatabaseService(uid: user.uid).insertItemData(
+                            _idNota,
                             _descricao,
                             _valor,
                             _categoria,
+                            _local,
                           );
                           Navigator.pop(context);
                         }

@@ -32,16 +32,21 @@ class _ItensFromNotaState extends State<ItensFromNota> {
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: SingleChildScrollView(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text("LOCAL DA COMPRA: " + widget.nota.local),
                       Text("VALOR TOTAL: R\$ " + widget.nota.valor.toString()),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       WebViewNota(
-                      //         url: widget.nota.link,
-                      //       );
-                      //     },
-                      //     child: Text('Visualizar Nota')),
+                      Text("DATA: " + widget.nota.data),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WebViewNota(
+                                          url: widget.nota.link,
+                                        )));
+                          },
+                          child: Text('Visualizar Nota')),
                       ItemList(),
                     ],
                   ),

@@ -21,11 +21,8 @@ class DatabaseService {
   final CollectionReference produtosCollection =
       FirebaseFirestore.instance.collection('produtos');
 
-  final CollectionReference categorias =
+  final CollectionReference categoriasCollection =
       FirebaseFirestore.instance.collection('categorias');
-
-  final CollectionReference documentoFiscalCollection =
-      FirebaseFirestore.instance.collection('documentoFiscal');
 
   //tanto para inserir, quanto para alterar dados do Usuário
   //a chave do documento de cada usuário será o UID gerado pela Autenticaçao
@@ -78,28 +75,12 @@ class DatabaseService {
     });
   }
 
-  //lista de documentos do snapshot
-  List<FiscalDocument> _fiscalDocumentListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      //if (uid.compareTo(doc.data()['uidUsuario']) == 1) {
-      return FiscalDocument(
-        uidUsuario: doc.data()['uidUsuario'] ?? '',
-        emitente: doc.data()['emitente'] ?? '',
-        local: doc.data()['local'] ?? '',
-        data: doc.data()['data'] ?? '',
-        total: doc.data()['total'] ?? 0,
-      );
-      // } else {
-      //   return null;
-      // }
-    }).toList();
-  }
-
-  //get lista de documentos fiscais
-  Stream<List<FiscalDocument>> get fiscalDocuments {
-    return documentoFiscalCollection
-        .snapshots()
-        .map(_fiscalDocumentListFromSnapshot);
+  Future updateCategoria(String descricao, double total, String cor) async {
+    return await categoriasCollection.doc(descricao).set({
+      'descricao': descricao,
+      'cor': cor,
+      'total': total,
+    });
   }
 
   //userData from snapshot
@@ -121,6 +102,18 @@ class DatabaseService {
     );
   }
 
+  List<Nota> _notaListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Nota(
+          chave: doc.id,
+          uid: doc.data()['uid'],
+          local: doc.data()['local'] ?? "",
+          valor: doc.data()['valor'].toDouble() ?? 0.0,
+          link: doc.data()['link'] ?? "",
+          data: doc.data()['data'] ?? "");
+    }).toList();
+  }
+
   //item list from snapshot
   List<Item> _itemListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
@@ -140,20 +133,17 @@ class DatabaseService {
   List<Categoria> _categoriaListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Categoria(
-          cor: doc.data()['cor'], descricao: doc.data()['descricao']);
+          cor: doc.data()['cor'],
+          descricao: doc.data()['descricao'],
+          total: doc.data()['total'].toDouble());
     }).toList();
   }
 
-  //item data from snapshot
-  Item _itemDataFromSnaphot(DocumentSnapshot snapshot) {
-    return Item(
-        key: snapshot.data()['key'],
-        uid: snapshot.data()['uid'],
-        idNota: snapshot.data()['nota'],
+  Categoria _categoriaFromSnapshot(DocumentSnapshot snapshot) {
+    return Categoria(
         descricao: snapshot.data()['descricao'],
-        valor: snapshot.data()['valor'],
-        categoria: snapshot.data()['categoria'],
-        local: snapshot.data()['local']);
+        cor: snapshot.data()['cor'],
+        total: snapshot.data()['total']);
   }
 
   Stream<UserData> get userData {
@@ -183,6 +173,20 @@ class DatabaseService {
   }
 
   Stream<List<Categoria>> get getCategorias {
-    return categorias.snapshots().map((_categoriaListFromSnapshot));
+    return categoriasCollection.snapshots().map((_categoriaListFromSnapshot));
+  }
+
+  Stream<Categoria> getCategoria(String descricao) {
+    return categoriasCollection
+        .doc(descricao)
+        .snapshots()
+        .map((_categoriaFromSnapshot));
+  }
+
+  Stream<List<Nota>> getNotas(String uid) {
+    return notasCollection
+        .where("uid", isEqualTo: uid)
+        .snapshots()
+        .map((_notaListFromSnapshot));
   }
 }

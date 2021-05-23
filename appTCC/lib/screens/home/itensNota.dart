@@ -2,9 +2,9 @@ import 'package:appTCC/models/item.dart';
 import 'package:appTCC/models/nota.dart';
 import 'package:appTCC/models/user.dart';
 import 'package:appTCC/screens/home/item_list.dart';
+import 'package:appTCC/shared/constants.dart';
 import 'package:appTCC/shared/webview_nota.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:appTCC/services/database.dart';
 
@@ -34,23 +34,38 @@ class _ItensFromNotaState extends State<ItensFromNota> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      ListTile(
+                        title: Text(widget.nota.local),
+                        subtitle: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(widget.nota.data,
+                                style: TextStyle(color: Colors.white)),
+                            Text("R\$ " + widget.nota.valor.toString(),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 20))
+                          ],
+                        ),
+                      ),
                       Text("LOCAL DA COMPRA: " + widget.nota.local),
                       Text("VALOR TOTAL: R\$ " + widget.nota.valor.toString()),
                       Text("DATA: " + widget.nota.data),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WebViewNota(
-                                          url: widget.nota.link,
-                                        )));
-                          },
-                          child: Text('Visualizar Nota')),
                       ItemList(),
                     ],
                   ),
                 ),
+              ),
+              floatingActionButton: FloatingActionButton.extended(
+                label: Text("Visualizar Nota"),
+                icon: Icon(Icons.article),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewNota(
+                                url: widget.nota.link,
+                              )));
+                },
               ),
             ),
           )

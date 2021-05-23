@@ -4,6 +4,7 @@ import 'package:appTCC/models/user.dart';
 import 'package:appTCC/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:appTCC/shared/constants.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:appTCC/shared/loading.dart';
 
@@ -86,12 +87,12 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                     for (int i = 0; i < snapshot.data.length; i++) {
                       Categoria snap = snapshot.data[i];
                       categorias.add(DropdownMenuItem(
-                        child: Text(
-                          snap.descricao,
-                        ),
+                        child: Text(snap.descricao,
+                            style: TextStyle(color: HexColor(snap.cor))),
                         value: snap.descricao,
                       ));
                     }
+
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

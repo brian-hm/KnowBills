@@ -1,3 +1,4 @@
+import 'package:appTCC/models/categoria.dart';
 import 'package:appTCC/models/item.dart';
 import 'package:appTCC/models/nota.dart';
 import 'package:appTCC/screens/home/itensNota.dart';
@@ -18,6 +19,7 @@ class WebscrapingFazenda extends StatefulWidget {
 class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
   List<Item> newsItens;
   Nota newNota = new Nota();
+  double totalValorNota;
 
   void initState() {
     super.initState();
@@ -35,6 +37,8 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
             child: Text('Ver Itens',
                 style: TextStyle(color: Colors.white, fontSize: 20)),
             onPressed: () {
+              // _updateCategoria(snapshot.data.descricao, snapshot.data.cor,
+              //     categoria.total, widget.uid);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -58,6 +62,7 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
         currentDate.month.toString() +
         "/" +
         currentDate.year.toString();
+    double valorNota = 0;
 
     if (await webScraper.loadWebPage(endpoint)) {
       final loja = webScraper.getElement('div.txtTopo', []);
@@ -72,11 +77,11 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
       nota.link = widget.url;
       nota.data = data;
 
-      print(nota.chave);
-      print(nota.local);
-      print(nota.valor);
-      print(nota.link);
-      print(nota.data);
+      // print(nota.chave);
+      // print(nota.local);
+      // print(nota.valor);
+      // print(nota.link);
+      // print(nota.data);
 
       await DatabaseService(uid: uid)
           .insertNota(nota.chave, nota.local, nota.valor, nota.link, nota.data);
@@ -86,13 +91,15 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
         String descricao = descricoes[i]['title'];
         String local = loja[0]['title'];
         double valor = double.parse(valores[i]['title'].replaceAll(',', '.'));
-        String categoria = 'Sem Categoria';
+        String categoria = "Sem Categoria";
 
         item.idNota = nota.chave;
         item.descricao = descricao;
         item.local = local;
         item.valor = valor;
         item.categoria = categoria;
+
+        valorNota = valorNota + item.valor;
 
         await DatabaseService(uid: uid).insertItemData(
           item.idNota,
@@ -101,10 +108,9 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
           item.categoria,
           item.local,
         );
-
-        print(item.descricao);
-        print(item.valor);
-        print(item.categoria);
+        // print(item.descricao);
+        // print(item.valor);
+        // print(item.categoria);
 
         itens.add(item);
       }
@@ -112,7 +118,13 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
       setState(() {
         newsItens = itens;
         newNota = nota;
+        totalValorNota = valorNota;
       });
     }
+  }
+
+  _updateCategoria(
+      String descricao, String cor, double total, String uid) async {
+    await DatabaseService(uid: uid).updateCategoria(descricao, total, cor);
   }
 }

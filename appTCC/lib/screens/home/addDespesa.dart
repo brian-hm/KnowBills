@@ -5,10 +5,10 @@ import 'package:appTCC/screens/home/addItemForm.dart';
 import 'package:appTCC/services/database.dart';
 import 'package:appTCC/shared/constants.dart';
 import 'package:appTCC/shared/loading.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appTCC/screens/home/item_list.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class AddDespesa extends StatefulWidget {
   @override
@@ -72,6 +72,7 @@ class _AddDespesaState extends State<AddDespesa> {
                           categorias.add(DropdownMenuItem(
                             child: Text(
                               snap.descricao,
+                              style: TextStyle(color: HexColor(snap.cor)),
                             ),
                             value: snap.descricao,
                           ));

@@ -1,3 +1,5 @@
+import 'package:appTCC/models/categoria.dart';
+
 class Item {
   String key;
   String uid;

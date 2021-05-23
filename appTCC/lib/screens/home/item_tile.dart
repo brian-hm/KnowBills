@@ -1,7 +1,11 @@
+import 'package:appTCC/models/categoria.dart';
 import 'package:appTCC/screens/home/updateItemFrom.dart';
+import 'package:appTCC/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:appTCC/models/item.dart';
 import 'package:appTCC/shared/constants.dart';
+import 'package:appTCC/services/database.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 //template para exibir item
 
@@ -38,7 +42,7 @@ class ItemTile extends StatelessWidget {
                   children: [
                     Text(
                       item.categoria,
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.grey),
                     ),
                     Text(
                       "R\$ " + item.valor.toString(),

@@ -32,6 +32,7 @@ dependencies:
   qr_code_scanner: ^0.4.0
   web_scraper: ^0.1.4
   webview_flutter: ^1.0.7
+  hexcolor: ^2.0.3
 
 dev_dependencies:
   flutter_test:

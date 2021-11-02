@@ -52,6 +52,7 @@ class DatabaseService {
   Future insertItemData(String idNota, String descricao, double valor,
       String categoria, String local) async {
     String key = produtosCollection.doc().id;
+   
     return await produtosCollection.doc(key).set({
       'key': key,
       'uid': uid,
@@ -62,6 +63,37 @@ class DatabaseService {
       'local': local
     });
   }
+
+
+//Inserir valor na Categoria
+  Future insertValueCategoria (String descricaoCategoria, double valor) async{
+
+    double total;
+    var document = await categoriasCollection.doc(descricaoCategoria).get();
+    total = valor + document.data()['total'];
+
+    return await categoriasCollection.doc(descricaoCategoria).set({
+      'descricao' : document.data()['descricao'],
+      'cor': document.data()['cor'],
+      'total' : total
+    });
+
+  }
+
+//Remover Valor da Categoria
+  Future removeValueCategoria (String descricaoCategoria, double valor) async{
+    double total;
+    var document = await categoriasCollection.doc(descricaoCategoria).get();
+    total = document.data()['total'] - valor;
+
+    return await categoriasCollection.doc(descricaoCategoria).set({
+      'descricao' : document.data()['descricao'],
+      'cor': document.data()['cor'],
+      'total' : total
+    });
+
+  }
+
 
   Future insertNota(String chave, String local, double valor, String link,
       String data) async {
@@ -140,10 +172,14 @@ class DatabaseService {
   }
 
   Categoria _categoriaFromSnapshot(DocumentSnapshot snapshot) {
-    return Categoria(
+    print('Cheguei from Snapshot');
+
+      return Categoria(
         descricao: snapshot.data()['descricao'],
         cor: snapshot.data()['cor'],
-        total: snapshot.data()['total']);
+        total: snapshot.data()['total']
+      );
+   
   }
 
   Stream<UserData> get userData {
@@ -177,6 +213,8 @@ class DatabaseService {
   }
 
   Stream<Categoria> getCategoria(String descricao) {
+    
+    print(categoriasCollection.doc(descricao).snapshots());   
     return categoriasCollection
         .doc(descricao)
         .snapshots()

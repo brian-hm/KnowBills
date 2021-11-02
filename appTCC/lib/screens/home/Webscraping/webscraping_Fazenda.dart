@@ -108,9 +108,9 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
           item.categoria,
           item.local,
         );
-        // print(item.descricao);
-        // print(item.valor);
-        // print(item.categoria);
+
+        await DatabaseService(uid: uid).insertValueCategoria(item.descricao, item.valor);
+        
 
         itens.add(item);
       }

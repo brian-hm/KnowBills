@@ -135,13 +135,18 @@ class _AddItemFormState extends State<AddItemForm> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
+
+
                           await DatabaseService(uid: user.uid).insertItemData(
-                            _idNota,
-                            _descricao,
-                            _valor,
-                            _categoria,
-                            _local,
+                              _idNota,
+                              _descricao,
+                              _valor,
+                              _categoria,
+                              _local,
                           );
+
+                          await DatabaseService(uid: user.uid).insertValueCategoria(_categoria, _valor);
+                          
                           Navigator.pop(context);
                         }
                       }),

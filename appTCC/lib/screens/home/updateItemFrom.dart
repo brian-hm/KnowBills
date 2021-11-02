@@ -18,10 +18,21 @@ class UpdateItemForm extends StatefulWidget {
 
 class _UpdateItemFormState extends State<UpdateItemForm> {
   final _formKey = GlobalKey<FormState>();
+  String newCategoria;
+  String currentCategoria;
+
+  double newValor = 0;
+  double currentValor;
+  
+
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Usuario>(context);
+
+    currentCategoria = widget.item.categoria;
+    currentValor = widget.item.valor;
+   
 
     return Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -70,7 +81,7 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                 validator: (val) => val.isEmpty ? 'Informe o valor' : null,
                 onChanged: (val) {
                   setState(() {
-                    widget.item.valor = double.parse(val);
+                    newValor = double.parse(val);
                   });
                 },
               ),
@@ -102,10 +113,11 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                           items: categorias,
                           onChanged: (currentValue) {
                             setState(() {
-                              widget.item.categoria = currentValue;
+                              newCategoria = currentValue;
+                              print(newCategoria);
                             });
                           },
-                          value: widget.item.categoria,
+                          value: newCategoria,
                           isExpanded: false,
                           hint: Text('Selecione a Categoria'),
                         ),
@@ -131,15 +143,27 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       onPressed: () async {
+                        print(newCategoria);
                         if (_formKey.currentState.validate()) {
                           await DatabaseService(uid: user.uid).updateItemData(
                             widget.item.key,
                             widget.item.idNota,
                             widget.item.descricao,
                             widget.item.local,
-                            widget.item.valor,
-                            widget.item.categoria,
+                            newValor != 0 ? newValor : currentValor,
+                            newCategoria,
                           );
+                          
+                          if(currentCategoria != newCategoria){
+                              await DatabaseService(uid: user.uid).removeValueCategoria(currentCategoria, currentValor);
+                            if(newValor != 0){
+                              await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, newValor);
+                            }else{
+                              await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, currentValor);
+                            }
+                            
+                            
+                          }
                           Navigator.pop(context);
                         }
                       }),

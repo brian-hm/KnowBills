@@ -8,6 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:appTCC/shared/loading.dart';
 
+
 class UpdateItemForm extends StatefulWidget {
   final Item item;
   UpdateItemForm({this.item});
@@ -130,43 +131,70 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                 height: 20.0,
               ),
               Center(
-                child: ButtonTheme(
-                  minWidth: 200.0,
-                  height: 50.0,
-                  child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(color: kMainColor)),
-                      color: kMainColor,
-                      child: Text(
-                        'Salvar',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onPressed: () async {
-                        print(newCategoria);
-                        if (_formKey.currentState.validate()) {
-                          await DatabaseService(uid: user.uid).updateItemData(
-                            widget.item.key,
-                            widget.item.idNota,
-                            widget.item.descricao,
-                            widget.item.local,
-                            newValor != 0 ? newValor : currentValor,
-                            newCategoria,
-                          );
-                          
-                          if(currentCategoria != newCategoria){
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red)),
+                          color: Colors.red,
+                          child: Text(
+                            'Deletar',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () async {                                                        
+                              
                               await DatabaseService(uid: user.uid).removeValueCategoria(currentCategoria, currentValor);
-                            if(newValor != 0){
-                              await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, newValor);
-                            }else{
-                              await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, currentValor);
+                              await DatabaseService(uid: user.uid).deleteItem(widget.item.key);
+                                                           
+                              Navigator.pop(context);
                             }
-                            
-                            
-                          }
-                          Navigator.pop(context);
-                        }
-                      }),
+                          )
+                    ),
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: kMainColor)),
+                          color: kMainColor,
+                          child: Text(
+                            'Salvar',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () async {
+                            print(newCategoria);
+                            if (_formKey.currentState.validate()) {
+                              await DatabaseService(uid: user.uid).updateItemData(
+                                widget.item.key,
+                                widget.item.idNota,
+                                widget.item.descricao,
+                                widget.item.local,
+                                newValor != 0 ? newValor : currentValor,
+                                newCategoria,
+                              );
+                              
+                              if(currentCategoria != newCategoria){
+                                  await DatabaseService(uid: user.uid).removeValueCategoria(currentCategoria, currentValor);
+                                if(newValor != 0){
+                                  await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, newValor);
+                                }else{
+                                  await DatabaseService(uid: user.uid).insertValueCategoria(newCategoria, currentValor);
+                                }
+                                
+                                
+                              }
+                              Navigator.pop(context);
+                            }
+                          }),
+                    ),
+                    
+                  ],
                 ),
               ),
             ],

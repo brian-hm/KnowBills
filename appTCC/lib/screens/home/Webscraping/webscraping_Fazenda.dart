@@ -77,11 +77,11 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
       nota.link = widget.url;
       nota.data = data;
 
-      // print(nota.chave);
-      // print(nota.local);
-      // print(nota.valor);
-      // print(nota.link);
-      // print(nota.data);
+       print(nota.chave);
+       print(nota.local);
+       print(nota.valor);
+       print(nota.link);
+       print(nota.data);
 
       await DatabaseService(uid: uid)
           .insertNota(nota.chave, nota.local, nota.valor, nota.link, nota.data);
@@ -99,6 +99,12 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
         item.valor = valor;
         item.categoria = categoria;
 
+        print(item.idNota);
+        print(item.descricao);
+        print(item.local);
+        print(item.valor);
+        print(item.categoria);
+
         valorNota = valorNota + item.valor;
 
         await DatabaseService(uid: uid).insertItemData(
@@ -109,7 +115,7 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
           item.local,
         );
 
-        await DatabaseService(uid: uid).insertValueCategoria(item.descricao, item.valor);
+        await DatabaseService(uid: uid).insertValueCategoria(item.categoria, item.valor);
         
 
         itens.add(item);

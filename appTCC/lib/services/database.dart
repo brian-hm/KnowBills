@@ -64,6 +64,10 @@ class DatabaseService {
     });
   }
 
+  Future deleteItem(String key) async {
+    return await produtosCollection.doc(key).delete();
+  }
+
 
 //Inserir valor na Categoria
   Future insertValueCategoria (String descricaoCategoria, double valor) async{
@@ -105,6 +109,12 @@ class DatabaseService {
       'link': link,
       'data': data,
     });
+  }
+
+  
+
+  Future deleteNota(String chave) async {
+    return await notasCollection.doc(chave).delete();
   }
 
   Future updateCategoria(String descricao, double total, String cor) async {

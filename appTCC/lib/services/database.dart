@@ -68,6 +68,14 @@ class DatabaseService {
     return await produtosCollection.doc(key).delete();
   }
 
+  //Inserir Categoria
+  Future insertCategoria(String descricao) async{
+      return await categoriasCollection.doc(descricao).set({
+        'descricao' : descricao,
+        'total' : 0,
+      });
+  }
+
 
 //Inserir valor na Categoria
   Future insertValueCategoria (String descricaoCategoria, double valor) async{
@@ -115,10 +123,9 @@ class DatabaseService {
     return await notasCollection.doc(chave).delete();
   }
 
-  Future updateCategoria(String descricao, double total, String cor) async {
-    return await categoriasCollection.doc(descricao).set({
-      'descricao': descricao,
-      'cor': cor,
+  Future updateCategoria(String currentDescricao, String newDescricao, double total) async {
+    return await categoriasCollection.doc(currentDescricao).set({
+      'descricao': newDescricao,
       'total': total,
     });
   }

@@ -128,9 +128,4 @@ class _WebscrapingFazendaState extends State<WebscrapingFazenda> {
       });
     }
   }
-
-  _updateCategoria(
-      String descricao, String cor, double total, String uid) async {
-    await DatabaseService(uid: uid).updateCategoria(descricao, total, cor);
-  }
 }

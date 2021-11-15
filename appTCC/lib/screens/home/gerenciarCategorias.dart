@@ -1,6 +1,9 @@
 import 'package:appTCC/models/categoria.dart';
 import 'package:appTCC/models/user.dart';
+import 'package:appTCC/screens/home/addCategoriaForm.dart';
+import 'package:appTCC/screens/home/updateCategoriaForm.dart';
 import 'package:appTCC/services/database.dart';
+import 'package:appTCC/shared/constants.dart';
 import 'package:appTCC/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +18,24 @@ class _GerenciarCategoriasState extends State<GerenciarCategorias> {
 
   @override
   Widget build(BuildContext context) {
+
+    void _showAddPanel() {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return AddCategoriaForm();
+          });
+    }
+
+    void _showUpdatePanel(Categoria categoria) {
+      showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return UpdateCategoriaForm(categoria: categoria);
+          });
+    }
+
+
     final user = Provider.of<Usuario>(context);
     
     return StreamBuilder<List<Categoria>>(
@@ -35,26 +56,42 @@ class _GerenciarCategoriasState extends State<GerenciarCategorias> {
             ),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: categorias.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: TextButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(categorias[index].descricao),
-                          Text(categorias[index].total.toString()),
-                        ],
-                      ),
-                      onPressed: (){
-                        //update Categoria
-                      },
+              child: Column(
+                children: [
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(color: kMainColor)),
+                    color: kMainColor,
+                    child: Text(
+                      'Nova Categoria',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                  );
-                },
+                    onPressed: () {
+                       _showAddPanel();
+                    }),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: categorias.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: TextButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(categorias[index].descricao),
+                              Text(categorias[index].total.toString())
+                            ],
+                          ),
+                          onPressed: (){
+                            _showUpdatePanel(categorias[index]);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           );
@@ -63,3 +100,4 @@ class _GerenciarCategoriasState extends State<GerenciarCategorias> {
     );
   }
 }
+

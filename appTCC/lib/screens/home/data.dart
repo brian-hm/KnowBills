@@ -1,11 +1,13 @@
 import 'package:appTCC/models/categoria.dart';
 import 'package:appTCC/models/item.dart';
 import 'package:appTCC/models/user.dart';
+import 'package:appTCC/screens/home/gerenciarCategorias.dart';
 import 'package:appTCC/services/database.dart';
 import 'package:appTCC/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Data extends StatefulWidget {
   @override
@@ -13,6 +15,15 @@ class Data extends StatefulWidget {
 }
 
 class _DataState extends State<Data> {
+  TooltipBehavior _tooltipBehavior;
+  double valorTotal = 0;
+
+  @override
+  void initState(){
+    _tooltipBehavior = TooltipBehavior(enable: true);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Usuario>(context);
@@ -39,101 +50,40 @@ class _DataState extends State<Data> {
                       categorias.add(categoria);
                       total = total + categoria.total;
                     }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: categorias.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                categorias[index].descricao,
-                                style: TextStyle(
-                                    color: HexColor(categorias[index].cor)),
-                              ),
-                              Text(categorias[index].total.toString()),
-                            ],
-                          ),
-                        );
-                      },
+                    return Column(
+                      children: [
+                        SfCircularChart(
+                          // title: ChartTitle(text: 'Categorias'),
+                          legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap, position: LegendPosition.bottom),
+                          tooltipBehavior: _tooltipBehavior,
+                          series: <CircularSeries>[
+                            PieSeries<Categoria, String>(
+                              dataSource: categorias,
+                              xValueMapper: (Categoria data,_) => data.descricao,
+                              yValueMapper: (Categoria data,_) => data.total,
+                              dataLabelSettings: DataLabelSettings(isVisible: true),
+                              enableTooltip: true,
+                              radius: '100%',
+                              explode: true
+                            )
+                          ],
+                        ),
+                        TextButton(
+                          child: Text("Gerenciar Categorias"),
+                          onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GerenciarCategorias()),
+                            )
+                          })
+                      ],
                     );
+                    
+                   
                   }
                 }),
           ],
-          // children: [
-          //   Center(
-          //     child: Image(image: AssetImage('lib/images/Total.png')),
-          //   ),
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       FlatButton(
-          //           onPressed: () {},
-          //           child: Text(
-          //             'Adicionar Categoria',
-          //           )),
-          //     ],
-          //   ),
-          //   FlatButton(
-          //       onPressed: () {},
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Text(
-          //             "Categoria 1:",
-          //             style: TextStyle(color: Colors.red),
-          //           ),
-          //           Text(
-          //             "0%",
-          //             style: TextStyle(color: Colors.red),
-          //           ),
-          //           Text(
-          //             "0.00",
-          //             style: TextStyle(color: Colors.red),
-          //           )
-          //         ],
-          //       )),
-          //   FlatButton(
-          //       onPressed: () {},
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Text(
-          //             "Categoria 2:",
-          //             style: TextStyle(color: Colors.blue),
-          //           ),
-          //           Text(
-          //             "0%",
-          //             style: TextStyle(color: Colors.blue),
-          //           ),
-          //           Text(
-          //             "0.00",
-          //             style: TextStyle(color: Colors.blue),
-          //           )
-          //         ],
-          //       )),
-          //   FlatButton(
-          //       onPressed: () {},
-          //       child: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Text(
-          //             "Categoria 3:",
-          //             style: TextStyle(color: Colors.green),
-          //           ),
-          //           Text(
-          //             "0%",
-          //             style: TextStyle(color: Colors.green),
-          //           ),
-          //           Text(
-          //             "0.00",
-          //             style: TextStyle(color: Colors.green),
-          //           )
-          //         ],
-          //       ))
-          // ],
         ),
       ),
     );

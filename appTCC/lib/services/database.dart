@@ -78,7 +78,6 @@ class DatabaseService {
 
     return await categoriasCollection.doc(descricaoCategoria).set({
       'descricao' : document.data()['descricao'],
-      'cor': document.data()['cor'],
       'total' : total
     });
 
@@ -92,7 +91,6 @@ class DatabaseService {
 
     return await categoriasCollection.doc(descricaoCategoria).set({
       'descricao' : document.data()['descricao'],
-      'cor': document.data()['cor'],
       'total' : total
     });
 
@@ -175,7 +173,6 @@ class DatabaseService {
   List<Categoria> _categoriaListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Categoria(
-          cor: doc.data()['cor'],
           descricao: doc.data()['descricao'],
           total: doc.data()['total'].toDouble());
     }).toList();
@@ -186,7 +183,6 @@ class DatabaseService {
 
       return Categoria(
         descricao: snapshot.data()['descricao'],
-        cor: snapshot.data()['cor'],
         total: snapshot.data()['total']
       );
    

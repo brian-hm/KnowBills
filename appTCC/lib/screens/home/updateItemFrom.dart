@@ -99,8 +99,7 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                     for (int i = 0; i < snapshot.data.length; i++) {
                       Categoria snap = snapshot.data[i];
                       categorias.add(DropdownMenuItem(
-                        child: Text(snap.descricao,
-                            style: TextStyle(color: HexColor(snap.cor))),
+                        child: Text(snap.descricao),
                         value: snap.descricao,
                       ));
                     }

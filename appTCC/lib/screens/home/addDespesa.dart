@@ -71,8 +71,7 @@ class _AddDespesaState extends State<AddDespesa> {
                           Categoria snap = snapshot.data[i];
                           categorias.add(DropdownMenuItem(
                             child: Text(
-                              snap.descricao,
-                              style: TextStyle(color: HexColor(snap.cor)),
+                              snap.descricao
                             ),
                             value: snap.descricao,
                           ));

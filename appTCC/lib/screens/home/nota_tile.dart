@@ -33,8 +33,6 @@ class NotaTile extends StatelessWidget {
           children: [
             TextButton(
               child: ListTile(
-                  leading: Text("R\$ " + nota.valor.toString(),
-                      style: TextStyle(color: Colors.black, fontSize: 15)),
                   title: Column(
                     children: [
                       Text(
@@ -46,9 +44,10 @@ class NotaTile extends StatelessWidget {
                       )
                     ],
                   ),
+                  trailing: Text("R\$ " + nota.valor.toString()),
                   subtitle:
                       Text(nota.data, style: TextStyle(color: Colors.white)),
-                    ),
+                  ),
                   
               onPressed: (){
                 Navigator.push(

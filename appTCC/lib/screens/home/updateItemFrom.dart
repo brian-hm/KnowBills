@@ -145,13 +145,28 @@ class _UpdateItemFormState extends State<UpdateItemForm> {
                             'Deletar',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          onPressed: () async {                                                        
-                              
-                              await DatabaseService(uid: user.uid).removeValueCategoria(currentCategoria, currentValor);
-                              await DatabaseService(uid: user.uid).deleteItem(widget.item.key);
-                                                           
-                              Navigator.pop(context);
-                            }
+                          onPressed: () => showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text("DELETAR ITEM"),
+                              content: Text("Certeza que deseja deletar este item?"),
+                              actions: [
+                                TextButton(
+                                  child: Text("Cancel"),
+                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                ),
+                                TextButton(
+                                  child: Text("Deletar"),
+                                   onPressed: () async {                                                      
+                                      await DatabaseService(uid: user.uid).removeValueCategoria(currentCategoria, currentValor);
+                                      await DatabaseService(uid: user.uid).deleteItem(widget.item.key);                                                           
+                                      Navigator.pop(context);
+                                    }
+                                )
+                              ],
+                            )
+                          ),
+                         
                           )
                     ),
                     ButtonTheme(

@@ -31,10 +31,6 @@ class _ItensFromNotaState extends State<ItensFromNota> {
               appBar: AppBar(
                   actions: [
                     TextButton(
-                      // onPressed: (){
-                      //   
-                      //   DeleteItensFromNota(itens: itens);
-                      // },
                       onPressed: () => showDialog(
                         context: context, 
                         builder: (BuildContext context) => AlertDialog(
@@ -64,27 +60,23 @@ class _ItensFromNotaState extends State<ItensFromNota> {
               body: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        title: Text(widget.nota.local),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(widget.nota.data,
-                                style: TextStyle(color: Colors.white)),
-                            Text("R\$ " + widget.nota.valor.toString(),
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20))
-                          ],
-                        ),
-                      ),
-                      Text("LOCAL DA COMPRA: " + widget.nota.local),
-                      Text("VALOR TOTAL: R\$ " + widget.nota.valor.toString()),
-                      Text("DATA: " + widget.nota.data),
-                      ItemList(),
-                    ],
+                  child: Container(
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                          child: Text("LOCAL DA COMPRA: " + widget.nota.local)),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                          alignment: Alignment.topLeft,
+                          child: Text("VALOR TOTAL: R\$ " + widget.nota.valor.toString())),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                          alignment: Alignment.topLeft,
+                          child: Text("DATA: " + widget.nota.data)),
+                        ItemList(),
+                      ],
+                    ),
                   ),
                 ),
               ),

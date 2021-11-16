@@ -50,23 +50,57 @@ class _UpdateCategoriaFormState extends State<UpdateCategoriaForm> {
                 height: 20.0,
               ),
               Center(
-                child: ButtonTheme(
-                  minWidth: 200.0,
-                  height: 50.0,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: kMainColor)
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: Colors.red)
+                        ),
+                        color: Colors.red,
+                        child: Text("Deletar", style: TextStyle(color: Colors.white, fontSize: 20),),
+                        onPressed: () => showDialog(
+                          context: context, 
+                          builder: (BuildContext context) => AlertDialog(
+                            title: Text("DELETAR CATEGORIA"),
+                            content: Text("Certeza que deseja deletar essa categoria?"),
+                            actions: [
+                              TextButton(
+                                child: Text("Cancel"),
+                                onPressed: () => Navigator.pop(context, 'Cancel'),
+                              ),
+                              TextButton(
+                                child: Text("OK"),
+                                onPressed: () {},
+                              )
+                            ],   
+                          )
+                        ),
+                      ),
                     ),
-                    color: kMainColor,
-                    child: Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 20),),
-                    onPressed: () async {
-                      if(_formKey.currentState.validate()){
-                        await DatabaseService(uid: user.uid).updateCategoria(widget.categoria.descricao, newCategoria, widget.categoria.total);
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
+                    ButtonTheme(
+                      minWidth: 150.0,
+                      height: 50.0,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: BorderSide(color: kMainColor)
+                        ),
+                        color: kMainColor,
+                        child: Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 20),),
+                        onPressed: () async {
+                          if(_formKey.currentState.validate()){
+                            await DatabaseService(uid: user.uid).updateCategoria(widget.categoria.descricao, newCategoria, widget.categoria.total);
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               )
           ],

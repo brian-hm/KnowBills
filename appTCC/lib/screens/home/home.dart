@@ -48,16 +48,15 @@ class _HomeState extends State<Home> {
     final user = Provider.of<Usuario>(context);
 
     return DefaultTabController(
-      length: _currentIndex == 0 ? 3 : 0,
+      length: _currentIndex == 0 ? 2 : 0,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(90),
           child: AppBar(
             // bottom: _currentIndex == 0
             //     ? TabBar(tabs: <Widget>[
-            //         Container(height: 30, child: Center(child: Text('DIA'))),
-            //         Container(height: 30, child: Center(child: Text('MES'))),
-            //         Container(height: 30, child: Center(child: Text('ANO'))),
+            //         Tab(text: "GERAL",),
+            //         Tab(text: "MÊS",)
             //       ])
             //     : null,
             title: Padding(
@@ -94,7 +93,7 @@ class _HomeState extends State<Home> {
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
               BottomNavigationBarItem(
-                icon: Icon(Icons.file_copy_outlined),
+                icon: Icon(Icons.local_grocery_store_outlined),
                 label: 'Despesas',
               ),
               BottomNavigationBarItem(

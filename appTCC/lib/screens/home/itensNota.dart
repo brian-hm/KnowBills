@@ -45,15 +45,15 @@ class _ItensFromNotaState extends State<ItensFromNota> {
                               child: Text("Ok"),
                               onPressed: () =>  Navigator.pushReplacement
                               (
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DeleteItensFromNota(
-                                nota: widget.nota.chave,
+                                  context,
+                                     MaterialPageRoute(
+                                    builder: (context) => DeleteItensFromNota(
+                                    nota: widget.nota.chave,
                               ))),
                             )
                           ],
                         )), 
-                      child: Text("DELETAR", style: TextStyle(color: Colors.red),))
+                      child: Icon(Icons.delete, color: Colors.red,))
                   ],
                   title: Text("ITENS DA NOTA"),
                   backgroundColor: Color(0xFF43BE7C)),

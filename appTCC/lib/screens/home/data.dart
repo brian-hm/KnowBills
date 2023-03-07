@@ -3,6 +3,7 @@ import 'package:appTCC/models/item.dart';
 import 'package:appTCC/models/user.dart';
 import 'package:appTCC/screens/home/gerenciarCategorias.dart';
 import 'package:appTCC/services/database.dart';
+import 'package:appTCC/shared/constants.dart';
 import 'package:appTCC/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -16,7 +17,6 @@ class Data extends StatefulWidget {
 
 class _DataState extends State<Data> {
   TooltipBehavior _tooltipBehavior;
-  double valorTotal = 0;
 
   @override
   void initState(){
@@ -36,8 +36,6 @@ class _DataState extends State<Data> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            //Colocar valor total nas categorias
-            //Colocar valor total no Usuário
             StreamBuilder<List<Categoria>>(
                 stream: DatabaseService(uid: user.uid).getCategorias,
                 builder: (context, snapshot) {
@@ -76,7 +74,11 @@ class _DataState extends State<Data> {
                               MaterialPageRoute(
                                 builder: (context) => GerenciarCategorias()),
                             )
-                          })
+                          }
+                        ),
+                        SizedBox(height: 50,),
+                        Text("VALOR TOTAL:", style: TextStyle(color: kMainColor, fontSize: 20 ),),
+                        Text("\nR\$ " + total.toString(), style: TextStyle(color: kMainColor, fontSize: 50))
                       ],
                     );
                     

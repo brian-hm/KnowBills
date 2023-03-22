@@ -71,7 +71,7 @@ Os usuários encontrarão as seguintes funcionalidades:
 ## Propostas
 - Atualmente o aplicativo oferece gerenciamento de categorias, no entanto ainda não permite o gerenciamento de forma individual e as operações são realizadas para todos os usuários. Além disso, o recurso de consulta de nota fiscal abrange, por enquanto, somente o estado de São Paulo. 
 - Os dados obtidos com as consultas são suficientes para gerenciamento e categorização automática dos produtos. 
-- Afim de facilitar o controle de despesas, a implementação de recursos para aprimorar a intereção com o aplicativo.
+- Implementação de recursos para aprimorar a ergonomia do aplicativo em relação a intereção com o usuário.
 
 
 ## Tecnologias

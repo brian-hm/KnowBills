@@ -68,6 +68,12 @@ Os usuários encontrarão as seguintes funcionalidades:
   <img alt="knowbills" title="#knowbills" src="./assets/telaAjuda.jpeg" width="200px" />
 </div>
 
+## Propostas
+- Atualmente o aplicativo oferece gerenciamento de categorias, no entanto ainda não permite o gerenciamento de forma individual e as operações são realizadas para todos os usuários. Além disso, o recurso de consulta de nota fiscal abrange, por enquanto, somente o estado de São Paulo. 
+- Os dados obtidos com as consultas são suficientes para gerenciamento e categorização automática dos produtos. 
+- Afim de facilitar o controle de despesas, a implementação de recursos para aprimorar a intereção com o aplicativo.
+
+
 ## Tecnologias
 
 As seguintes ferramentas foram usadas na construção do aplicativo:
@@ -76,6 +82,8 @@ As seguintes ferramentas foram usadas na construção do aplicativo:
 - [Flutter][flutter]
 - [Firebase][firebase]
 - [Consulta NFCe - Secretaria da Fazenda][nfce]
+
+
 
 [dart]: https://dart.dev/
 [flutter]: https://flutter.dev/

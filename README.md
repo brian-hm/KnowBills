@@ -10,7 +10,7 @@
  <img alt="License" src="https://img.shields.io/badge/license-MIT-orange">
  <img alt="Version" src="https://img.shields.io/badge/flutter-2.5.0-blue">
  <img alt="Version" src="https://img.shields.io/badge/dart-2.14.0-blue">
- <img alt="Version" src="https://img.shields.io/badge/firebase-orange">
+ <img alt="Version" src="https://img.shields.io/badge/firebase-1.2.0-orange">
 </p>
 
 

@@ -26,6 +26,9 @@ Os usuários encontrarão as seguintes funcionalidades:
 - Gerenciamento de categorias;
 - Geração de Relatórios.
 
+Projeto desenvolvido para conclusão de curso apresentada ao Instituto Federal de Educação, Ciência e Tecnologia de São Paulo.
+Título do trabalho: Aplicativo móvel ergonômico para controle de despesas pessoais com suporte à leitura QR-Code
+
 ## Layout
 
 ### Telas: Login e Cadastro

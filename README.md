@@ -13,6 +13,10 @@
  <img alt="Version" src="https://img.shields.io/badge/firebase-1.2.0-orange">
 </p>
 
+Projeto desenvolvido para conclusão de curso apresentada ao Instituto Federal de Educação, Ciência e Tecnologia de São Paulo.
+
+Título do trabalho: Aplicativo móvel ergonômico para controle de despesas pessoais com suporte à leitura QR-Code
+
 
 ## Sobre o aplicativo
 
@@ -25,9 +29,6 @@ Os usuários encontrarão as seguintes funcionalidades:
 - Categorização de despesas;
 - Gerenciamento de categorias;
 - Geração de Relatórios.
-
-Projeto desenvolvido para conclusão de curso apresentada ao Instituto Federal de Educação, Ciência e Tecnologia de São Paulo.
-Título do trabalho: Aplicativo móvel ergonômico para controle de despesas pessoais com suporte à leitura QR-Code
 
 ## Layout
 
